@@ -1,125 +1,434 @@
-import { Drawer, useDrawer } from '~/components/Drawer';
-import { Suspense } from 'react';
-import { Await } from '@remix-run/react';
-import { useMatches } from '@remix-run/react';
-import { CartLineItems, CartActions, CartSummary } from '~/components/Cart';
-import { useFetchers } from '@remix-run/react';
-import { useEffect } from 'react';
+import {useIsHomePath} from '~/lib/utils';
+import {
+  Drawer,
+  useDrawer,
+  Text,
+  Input,
+  IconLogin,
+  IconAccount,
+  IconBag,
+  IconSearch,
+  Heading,
+  IconMenu,
+  IconCaret,
+  Section,
+  CountrySelector,
+  Cart,
+  CartLoading,
+  Link,
+} from '~/components';
+import {useParams, Form, Await, useMatches} from '@remix-run/react';
+import {useWindowScroll} from 'react-use';
+import {Disclosure} from '@headlessui/react';
+import {Suspense, useEffect, useMemo} from 'react';
+import {useIsHydrated} from '~/hooks/useIsHydrated';
+import {useCartFetchers} from '~/hooks/useCartFetchers';
 
-function CartHeader({ cart, openDrawer }) {
-    return (
-        <Suspense>
-            <Await resolve={cart}>
-                {(data) => (
-                    <button
-                        className="relative ml-auto flex items-center justify-center w-8 h-8"
-                        onClick={openDrawer}
-                    >
-                        <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            viewBox="0 0 20 20"
-                            fill="currentColor"
-                            className="w-5 h-5"
-                        >
-                            <title>Bag</title>
-                            <path
-                                fillRule="evenodd"
-                                d="M8.125 5a1.875 1.875 0 0 1 3.75 0v.375h-3.75V5Zm-1.25.375V5a3.125 3.125 0 1 1 6.25 0v.375h3.5V15A2.625 2.625 0 0 1 14 17.625H6A2.625 2.625 0 0 1 3.375 15V5.375h3.5ZM4.625 15V6.625h10.75V15c0 .76-.616 1.375-1.375 1.375H6c-.76 0-1.375-.616-1.375-1.375Z"
-                            ></path>
-                        </svg>
-                        {data?.totalQuantity > 0 && (
-                            <div className="text-contrast bg-red-500 text-white absolute bottom-1 right-1 text-[0.625rem] font-medium subpixel-antialiased h-3 min-w-[0.75rem] flex items-center justify-center leading-none text-center rounded-full w-auto px-[0.125rem] pb-px">
-                                <span>{data?.totalQuantity}</span>
-                            </div>
-                        )}
-                    </button>
-                )}
-            </Await>
-        </Suspense>
-    );
-}
-
-export function Layout({ children, title }) {
-    const { isOpen, openDrawer, closeDrawer } = useDrawer();
-    const fetchers = useFetchers();
-    
-    // Grab all the fetchers that are adding to cart
-    const addToCartFetchers = [];
-    for (const fetcher of fetchers) {
-        if (fetcher?.submission?.formData?.get('cartAction') === 'ADD_TO_CART') {
-            addToCartFetchers.push(fetcher);
-        }
-    }
-
-    // When the fetchers array changes, open the drawer if there is an add to cart action
-    useEffect(() => {
-        if (isOpen || addToCartFetchers.length === 0) return;
-        openDrawer();
-    }, [addToCartFetchers]);
-
-    const [root] = useMatches();
-    const cart = root.data?.cart;
-    return (
-        <div className="flex flex-col min-h-screen antialiased bg-neutral-50">
-            <header
-                role="banner"
-                className={`flex items-center h-16 p-6 md:p-8 lg:p-12 sticky backdrop-blur-lg z-40 top-0 justify-between w-full leading-none gap-4 antialiased transition shadow-sm`}
-            >
-                <div className="flex gap-12 w-full items-center">
-                    <a className="font-bold" href="/">
-                        {title}
-                    </a>
-                    <CartHeader cart={cart} openDrawer={openDrawer} />
-                </div>
-            </header>
-            <main
-                role="main"
-                id="mainContent"
-                className="flex-grow p-6 md:p-8 lg:p-12"
-            >
-                {children}
-            </main>
-            <Drawer open={isOpen} onClose={closeDrawer}>
-                <CartDrawer cart={cart} close={closeDrawer} />
-            </Drawer>
+export function Layout({children, layout}) {
+  return (
+    <>
+      <div className="flex flex-col min-h-screen">
+        <div className="">
+          <a href="#mainContent" className="sr-only">
+            Skip to content
+          </a>
         </div>
-    );
+        <Header
+          title={layout?.shop.name ?? 'Hydrogen'}
+          menu={layout?.headerMenu}
+        />
+        <main role="main" id="mainContent" className="flex-grow">
+          {children}
+        </main>
+      </div>
+      <Footer menu={layout?.footerMenu} />
+    </>
+  );
 }
 
-function CartDrawer({ cart, close }) {
-    return (
-        <Suspense>
-            <Await resolve={cart}>
-                {(data) => (
-                    <>
-                        {data?.totalQuantity > 0 ? (
-                            <>
-                                <div className="flex-1 overflow-y-auto">
-                                    <div className="flex flex-col space-y-7 justify-between items-center md:py-8 md:px-12 px-4 py-6">
-                                        <CartLineItems linesObj={data.lines} />
-                                    </div>
-                                </div>
-                                <div className="w-full md:px-12 px-4 py-6 space-y-6 border border-1 border-gray-00">
-                                    <CartSummary cost={data.cost} />
-                                    <CartActions checkoutUrl={data.checkoutUrl} />
-                                </div>
-                            </>
-                        ) : (
-                            <div className="flex flex-col space-y-7 justify-center items-center md:py-8 md:px-12 px-4 py-6 h-screen">
-                                <h2 className="whitespace-pre-wrap max-w-prose font-bold text-4xl">
-                                    Your cart is empty
-                                </h2>
-                                <button
-                                    onClick={close}
-                                    className="inline-block rounded-sm font-medium text-center py-3 px-6 max-w-xl leading-none bg-black text-white w-full"
-                                >
-                                    Continue shopping
-                                </button>
-                            </div>
-                        )}
-                    </>
-                )}
-            </Await>
+function Header({title, menu}) {
+  const isHome = useIsHomePath();
+
+  const {
+    isOpen: isCartOpen,
+    openDrawer: openCart,
+    closeDrawer: closeCart,
+  } = useDrawer();
+
+  const {
+    isOpen: isMenuOpen,
+    openDrawer: openMenu,
+    closeDrawer: closeMenu,
+  } = useDrawer();
+
+  const addToCartFetchers = useCartFetchers('ADD_TO_CART');
+
+  // toggle cart drawer when adding to cart
+  useEffect(() => {
+    if (isCartOpen || !addToCartFetchers.length) return;
+    openCart();
+  }, [addToCartFetchers, isCartOpen, openCart]);
+
+  return (
+    <>
+      <CartDrawer isOpen={isCartOpen} onClose={closeCart} />
+      {menu && (
+        <MenuDrawer isOpen={isMenuOpen} onClose={closeMenu} menu={menu} />
+      )}
+      <DesktopHeader
+        isHome={isHome}
+        title={title}
+        menu={menu}
+        openCart={openCart}
+      />
+      <MobileHeader
+        isHome={isHome}
+        title={title}
+        openCart={openCart}
+        openMenu={openMenu}
+      />
+    </>
+  );
+}
+
+function CartDrawer({isOpen, onClose}) {
+  const [root] = useMatches();
+
+  return (
+    <Drawer open={isOpen} onClose={onClose} heading="Cart" openFrom="right">
+      <div className="grid">
+        <Suspense fallback={<CartLoading />}>
+          <Await resolve={root.data?.cart}>
+            {(cart) => <Cart layout="drawer" onClose={onClose} cart={cart} />}
+          </Await>
         </Suspense>
+      </div>
+    </Drawer>
+  );
+}
+
+export function MenuDrawer({isOpen, onClose, menu}) {
+  return (
+    <Drawer open={isOpen} onClose={onClose} openFrom="left" heading="Menu">
+      <div className="grid">
+        <MenuMobileNav menu={menu} onClose={onClose} />
+      </div>
+    </Drawer>
+  );
+}
+
+function MenuMobileNav({menu, onClose}) {
+  return (
+    <nav className="grid gap-4 p-6 sm:gap-6 sm:px-12 sm:py-8">
+      {/* Top level menu items */}
+      {(menu?.items || []).map((item) => (
+        <span key={item.id} className="block">
+          <Link
+            to={item.to}
+            target={item.target}
+            onClick={onClose}
+            className={({isActive}) =>
+              isActive ? 'pb-1 border-b -mb-px' : 'pb-1'
+            }
+          >
+            <Text as="span" size="copy">
+              {item.title}
+            </Text>
+          </Link>
+        </span>
+      ))}
+    </nav>
+  );
+}
+
+function MobileHeader({title, isHome, openCart, openMenu}) {
+  // useHeaderStyleFix(containerStyle, setContainerStyle, isHome);
+
+  const params = useParams();
+
+  return (
+    <header
+      role="banner"
+      className={`${
+        isHome
+          ? 'bg-primary/80 dark:bg-contrast/60 text-contrast dark:text-primary shadow-darkHeader'
+          : 'bg-contrast/80 text-primary'
+      } flex lg:hidden items-center h-nav sticky backdrop-blur-lg z-40 top-0 justify-between w-full leading-none gap-4 px-4 md:px-8`}
+    >
+      <div className="flex items-center justify-start w-full gap-4">
+        <button
+          onClick={openMenu}
+          className="relative flex items-center justify-center w-8 h-8"
+        >
+          <IconMenu />
+        </button>
+        <Form
+          method="get"
+          action={params.lang ? `/${params.lang}/search` : '/search'}
+          className="items-center gap-2 sm:flex"
+        >
+          <button
+            type="submit"
+            className="relative flex items-center justify-center w-8 h-8"
+          >
+            <IconSearch />
+          </button>
+          <Input
+            className={
+              isHome
+                ? 'focus:border-contrast/20 dark:focus:border-primary/20'
+                : 'focus:border-primary/20'
+            }
+            type="search"
+            variant="minisearch"
+            placeholder="Search"
+            name="q"
+          />
+        </Form>
+      </div>
+
+      <Link
+        className="flex items-center self-stretch leading-[3rem] md:leading-[4rem] justify-center flex-grow w-full h-full"
+        to="/"
+      >
+        <Heading className="font-bold text-center" as={isHome ? 'h1' : 'h2'}>
+          {title}
+        </Heading>
+      </Link>
+
+      <div className="flex items-center justify-end w-full gap-4">
+        <AccountLink className="relative flex items-center justify-center w-8 h-8" />
+        <CartCount isHome={isHome} openCart={openCart} />
+      </div>
+    </header>
+  );
+}
+
+function DesktopHeader({isHome, menu, openCart, title}) {
+  const params = useParams();
+  const {y} = useWindowScroll();
+  return (
+    <header
+      role="banner"
+      className={`${
+        isHome
+          ? 'bg-primary/80 dark:bg-contrast/60 text-contrast dark:text-primary shadow-darkHeader'
+          : 'bg-contrast/80 text-primary'
+      } ${
+        !isHome && y > 50 && ' shadow-lightHeader'
+      } hidden h-nav lg:flex items-center sticky transition duration-300 backdrop-blur-lg z-40 top-0 justify-between w-full leading-none gap-8 px-12 py-8`}
+    >
+      <div className="flex gap-12">
+        <Link className="font-bold" to="/" prefetch="intent">
+          {title}
+        </Link>
+        <nav className="flex gap-8">
+          {/* Top level menu items */}
+          {(menu?.items || []).map((item) => (
+            <Link
+              key={item.id}
+              to={item.to}
+              target={item.target}
+              prefetch="intent"
+              className={({isActive}) =>
+                isActive ? 'pb-1 border-b -mb-px' : 'pb-1'
+              }
+            >
+              {item.title}
+            </Link>
+          ))}
+        </nav>
+      </div>
+      <div className="flex items-center gap-1">
+        <Form
+          method="get"
+          action={params.lang ? `/${params.lang}/search` : '/search'}
+          className="flex items-center gap-2"
+        >
+          <Input
+            className={
+              isHome
+                ? 'focus:border-contrast/20 dark:focus:border-primary/20'
+                : 'focus:border-primary/20'
+            }
+            type="search"
+            variant="minisearch"
+            placeholder="Search"
+            name="q"
+          />
+          <button
+            type="submit"
+            className="relative flex items-center justify-center w-8 h-8 focus:ring-primary/5"
+          >
+            <IconSearch />
+          </button>
+        </Form>
+        <AccountLink className="relative flex items-center justify-center w-8 h-8 focus:ring-primary/5" />
+        <CartCount isHome={isHome} openCart={openCart} />
+      </div>
+    </header>
+  );
+}
+
+function AccountLink({className}) {
+  const [root] = useMatches();
+  const isLoggedIn = root.data?.isLoggedIn;
+  return isLoggedIn ? (
+    <Link to="/account" className={className}>
+      <IconAccount />
+    </Link>
+  ) : (
+    <Link to="/account/login" className={className}>
+      <IconLogin />
+    </Link>
+  );
+}
+
+function CartCount({isHome, openCart}) {
+  const [root] = useMatches();
+
+  return (
+    <Suspense fallback={<Badge count={0} dark={isHome} openCart={openCart} />}>
+      <Await resolve={root.data?.cart}>
+        {(cart) => (
+          <Badge
+            dark={isHome}
+            openCart={openCart}
+            count={cart?.totalQuantity || 0}
+          />
+        )}
+      </Await>
+    </Suspense>
+  );
+}
+
+function Badge({openCart, dark, count}) {
+  const isHydrated = useIsHydrated();
+
+  const BadgeCounter = useMemo(
+    () => (
+      <>
+        <IconBag />
+        <div
+          className={`${
+            dark
+              ? 'text-primary bg-contrast dark:text-contrast dark:bg-primary'
+              : 'text-contrast bg-primary'
+          } absolute bottom-1 right-1 text-[0.625rem] font-medium subpixel-antialiased h-3 min-w-[0.75rem] flex items-center justify-center leading-none text-center rounded-full w-auto px-[0.125rem] pb-px`}
+        >
+          <span>{count || 0}</span>
+        </div>
+      </>
+    ),
+    [count, dark],
+  );
+
+  return isHydrated ? (
+    <button
+      onClick={openCart}
+      className="relative flex items-center justify-center w-8 h-8 focus:ring-primary/5"
+    >
+      {BadgeCounter}
+    </button>
+  ) : (
+    <Link
+      to="/cart"
+      className="relative flex items-center justify-center w-8 h-8 focus:ring-primary/5"
+    >
+      {BadgeCounter}
+    </Link>
+  );
+}
+
+function Footer({menu}) {
+  const isHome = useIsHomePath();
+  const itemsCount = menu
+    ? menu?.items?.length + 1 > 4
+      ? 4
+      : menu?.items?.length + 1
+    : [];
+
+  return (
+    <Section
+      divider={isHome ? 'none' : 'top'}
+      as="footer"
+      role="contentinfo"
+      className={`grid min-h-[25rem] items-start grid-flow-row w-full gap-6 py-8 px-6 md:px-8 lg:px-12 md:gap-8 lg:gap-12 grid-cols-1 md:grid-cols-2 lg:grid-cols-${itemsCount}
+        bg-primary dark:bg-contrast dark:text-primary text-contrast overflow-hidden`}
+    >
+      <FooterMenu menu={menu} />
+      <CountrySelector />
+      <div
+        className={`self-end pt-8 opacity-50 md:col-span-2 lg:col-span-${itemsCount}`}
+      >
+        &copy; {new Date().getFullYear()} / Shopify, Inc. Hydrogen is an MIT
+        Licensed Open Source project.
+      </div>
+    </Section>
+  );
+}
+
+const FooterLink = ({item}) => {
+  if (item.to.startsWith('http')) {
+    return (
+      <a href={item.to} target={item.target} rel="noopener noreferrer">
+        {item.title}
+      </a>
     );
+  }
+
+  return (
+    <Link to={item.to} target={item.target} prefetch="intent">
+      {item.title}
+    </Link>
+  );
+};
+
+function FooterMenu({menu}) {
+  const styles = {
+    section: 'grid gap-4',
+    nav: 'grid gap-2 pb-6',
+  };
+
+  return (
+    <>
+      {(menu?.items || []).map((item) => (
+        <section key={item.id} className={styles.section}>
+          <Disclosure>
+            {({open}) => (
+              <>
+                <Disclosure.Button className="text-left md:cursor-default">
+                  <Heading className="flex justify-between" size="lead" as="h3">
+                    {item.title}
+                    {item?.items?.length > 0 && (
+                      <span className="md:hidden">
+                        <IconCaret direction={open ? 'up' : 'down'} />
+                      </span>
+                    )}
+                  </Heading>
+                </Disclosure.Button>
+                {item?.items?.length > 0 ? (
+                  <div
+                    className={`${
+                      open ? `max-h-48 h-fit` : `max-h-0 md:max-h-fit`
+                    } overflow-hidden transition-all duration-300`}
+                  >
+                    <Suspense data-comment="This suspense fixes a hydration bug in Disclosure.Panel with static prop">
+                      <Disclosure.Panel static>
+                        <nav className={styles.nav}>
+                          {item.items.map((subItem) => (
+                            <FooterLink key={subItem.id} item={subItem} />
+                          ))}
+                        </nav>
+                      </Disclosure.Panel>
+                    </Suspense>
+                  </div>
+                ) : null}
+              </>
+            )}
+          </Disclosure>
+        </section>
+      ))}
+    </>
+  );
 }
