@@ -125,22 +125,8 @@ export default function Product() {
               <div className="grid gap-4 py-4">
                 {descriptionHtml && (
                   <ProductDetail
-                    title="Product Details"
+                    title="Especificaciones"
                     content={descriptionHtml}
-                  />
-                )}
-                {shippingPolicy?.body && (
-                  <ProductDetail
-                    title="Shipping"
-                    content={getExcerpt(shippingPolicy.body)}
-                    learnMore={`/policies/${shippingPolicy.handle}`}
-                  />
-                )}
-                {refundPolicy?.body && (
-                  <ProductDetail
-                    title="Returns"
-                    content={getExcerpt(refundPolicy.body)}
-                    learnMore={`/policies/${refundPolicy.handle}`}
                   />
                 )}
               </div>
@@ -228,7 +214,7 @@ export function ProductForm() {
           <div className="grid items-stretch gap-4">
             {isOutOfStock ? (
               <Button variant="secondary" disabled>
-                <Text>Sold out</Text>
+                <Text>Agotado</Text>
               </Button>
             ) : (
               <AddToCartButton
@@ -249,7 +235,7 @@ export function ProductForm() {
                   as="span"
                   className="flex items-center justify-center gap-2"
                 >
-                  <span>Add to Bag</span> <span>·</span>{' '}
+                  <span>Agregar a bolsa</span> <span>·</span>{' '}
                   <Money
                     withoutTrailingZeros
                     data={selectedVariant?.price}
@@ -453,7 +439,7 @@ function ProductDetail({title, content, learnMore}) {
                   className="pb-px border-b border-primary/30 text-primary/50"
                   to={learnMore}
                 >
-                  Learn more
+                  Aprender más
                 </Link>
               </div>
             )}

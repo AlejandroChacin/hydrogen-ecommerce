@@ -1744,10 +1744,6 @@ select{
 .h-8{
   height: 2rem;
 }
-.h-fit{
-  height: -moz-fit-content;
-  height: fit-content;
-}
 .h-full{
   height: 100%;
 }
@@ -1779,8 +1775,8 @@ select{
 .max-h-full{
   max-height: 100%;
 }
-.min-h-\[25rem\]{
-  min-height: 25rem;
+.min-h-\[15rem\]{
+  min-height: 15rem;
 }
 .min-h-full{
   min-height: 100%;
@@ -2212,10 +2208,6 @@ select{
   background-color: rgba(20, 20, 20, 0.05);
   background-color: rgb(var(--color-primary) / 0.05);
 }
-.bg-primary\/80{
-  background-color: rgba(20, 20, 20, 0.8);
-  background-color: rgb(var(--color-primary) / 0.8);
-}
 .bg-red-100{
   --tw-bg-opacity: 1;
   background-color: rgba(254, 226, 226, var(--tw-bg-opacity));
@@ -2520,12 +2512,6 @@ select{
 }
 .opacity-50{
   opacity: 0.5;
-}
-.shadow-darkHeader{
-  --tw-shadow: inset 0px -1px 0px 0px rgba(21, 21, 21, 0.4);
-  --tw-shadow-colored: inset 0px -1px 0px 0px var(--tw-shadow-color);
-  box-shadow: 0 0 rgba(0,0,0,0), 0 0 rgba(0,0,0,0), var(--tw-shadow);
-  box-shadow: var(--tw-ring-offset-shadow, 0 0 rgba(0,0,0,0)), var(--tw-ring-shadow, 0 0 rgba(0,0,0,0)), var(--tw-shadow);
 }
 .shadow-lightHeader{
   --tw-shadow: inset 0px -1px 0px 0px rgba(21, 21, 21, 0.05);
@@ -2871,11 +2857,6 @@ shop-pay-button {
     background-color: rgb(var(--color-contrast) / 0.1);
   }
 
-  .dark\:bg-contrast\/60{
-    background-color: rgba(250, 250, 249, 0.6);
-    background-color: rgb(var(--color-contrast) / 0.6);
-  }
-
   .dark\:bg-primary{
     --tw-bg-opacity: 1;
     background-color: rgba(20, 20, 20, var(--tw-bg-opacity));
@@ -2925,11 +2906,6 @@ shop-pay-button {
   .dark\:bg-contrast\/10{
     background-color: rgba(250, 250, 249, 0.1);
     background-color: rgb(var(--color-contrast) / 0.1);
-  }
-
-  .dark\:bg-contrast\/60{
-    background-color: rgba(250, 250, 249, 0.6);
-    background-color: rgb(var(--color-contrast) / 0.6);
   }
 
   .dark\:bg-primary{
@@ -2985,12 +2961,6 @@ shop-pay-button {
     background-color: rgb(var(--color-contrast) / 0.1);
   }
 
-  .dark\:bg-contrast\/60{
-    background-color: rgba(250, 250, 249, 0.6);
-    background-color: rgba(250, 250, 249, 0.6);
-    background-color: rgb(var(--color-contrast) / 0.6);
-  }
-
   .dark\:bg-primary{
     --tw-bg-opacity: 1;
     background-color: rgba(20, 20, 20, var(--tw-bg-opacity));
@@ -3046,12 +3016,6 @@ shop-pay-button {
     background-color: rgba(250, 250, 249, 0.1);
     background-color: rgba(250, 250, 249, 0.1);
     background-color: rgb(var(--color-contrast) / 0.1);
-  }
-
-  .dark\:bg-contrast\/60{
-    background-color: rgba(250, 250, 249, 0.6);
-    background-color: rgba(250, 250, 249, 0.6);
-    background-color: rgb(var(--color-contrast) / 0.6);
   }
 
   .dark\:bg-primary{
@@ -3111,12 +3075,6 @@ shop-pay-button {
     background-color: rgb(var(--color-contrast) / 0.1);
   }
 
-  .dark\:bg-contrast\/60{
-    background-color: rgba(250, 250, 249, 0.6);
-    background-color: rgba(250, 250, 249, 0.6);
-    background-color: rgb(var(--color-contrast) / 0.6);
-  }
-
   .dark\:bg-primary{
     --tw-bg-opacity: 1;
     background-color: rgba(20, 20, 20, var(--tw-bg-opacity));
@@ -3172,12 +3130,6 @@ shop-pay-button {
     background-color: rgba(250, 250, 249, 0.1);
     background-color: rgba(250, 250, 249, 0.1);
     background-color: rgb(var(--color-contrast) / 0.1);
-  }
-
-  .dark\:bg-contrast\/60{
-    background-color: rgba(250, 250, 249, 0.6);
-    background-color: rgba(250, 250, 249, 0.6);
-    background-color: rgb(var(--color-contrast) / 0.6);
   }
 
   .dark\:bg-primary{
@@ -3235,11 +3187,6 @@ shop-pay-button {
     background-color: rgb(var(--color-contrast) / 0.1);
   }
 
-  .dark\:bg-contrast\/60{
-    background-color: rgba(250, 250, 249, 0.6);
-    background-color: rgb(var(--color-contrast) / 0.6);
-  }
-
   .dark\:bg-primary{
     --tw-bg-opacity: 1;
     background-color: rgba(20, 20, 20, var(--tw-bg-opacity));
@@ -3286,10 +3233,6 @@ shop-pay-button {
 
   .sm\:block{
     display: block;
-  }
-
-  .sm\:flex{
-    display: flex;
   }
 
   .sm\:table-cell{
@@ -3433,10 +3376,6 @@ shop-pay-button {
     display: table-cell;
   }
 
-  .md\:hidden{
-    display: none;
-  }
-
   .md\:aspect-\[4\/5\]{
     aspect-ratio: 4/5;
   }
@@ -3452,11 +3391,6 @@ shop-pay-button {
   .md\:h-screen{
     height: 100vh;
     height: var(--screen-height, 100vh);
-  }
-
-  .md\:max-h-fit{
-    max-height: -moz-fit-content;
-    max-height: fit-content;
   }
 
   .md\:max-h-full{
@@ -3507,10 +3441,6 @@ shop-pay-button {
   .md\:translate-y-4{
     --tw-translate-y: 1rem;
     transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
-  }
-
-  .md\:cursor-default{
-    cursor: default;
   }
 
   .md\:scroll-px-8{

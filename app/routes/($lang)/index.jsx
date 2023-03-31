@@ -1,17 +1,17 @@
-import {defer} from '@shopify/remix-oxygen';
-import {Suspense} from 'react';
-import {Await, useLoaderData} from '@remix-run/react';
-import {ProductSwimlane, FeaturedCollections, Hero} from '~/components';
-import {MEDIA_FRAGMENT, PRODUCT_CARD_FRAGMENT} from '~/data/fragments';
-import {getHeroPlaceholder} from '~/lib/placeholders';
-import {seoPayload} from '~/lib/seo.server';
-import {AnalyticsPageType} from '@shopify/hydrogen';
-import {routeHeaders, CACHE_SHORT} from '~/data/cache';
+import { defer } from '@shopify/remix-oxygen';
+import { Suspense } from 'react';
+import { Await, useLoaderData } from '@remix-run/react';
+import { ProductSwimlane, FeaturedCollections, Hero } from '~/components';
+import { MEDIA_FRAGMENT, PRODUCT_CARD_FRAGMENT } from '~/data/fragments';
+import { getHeroPlaceholder } from '~/lib/placeholders';
+import { seoPayload } from '~/lib/seo.server';
+import { AnalyticsPageType } from '@shopify/hydrogen';
+import { routeHeaders, CACHE_SHORT } from '~/data/cache';
 
 export const headers = routeHeaders;
 
-export async function loader({params, context}) {
-  const {language, country} = context.storefront.i18n;
+export async function loader({ params, context }) {
+  const { language, country } = context.storefront.i18n;
 
   if (
     params.lang &&
@@ -19,11 +19,11 @@ export async function loader({params, context}) {
   ) {
     // If the lang URL param is defined, yet we still are on `EN-US`
     // the the lang param must be invalid, send to the 404 page
-    throw new Response(null, {status: 404});
+    throw new Response(null, { status: 404 });
   }
 
-  const {shop, hero} = await context.storefront.query(HOMEPAGE_SEO_QUERY, {
-    variables: {handle: 'freestyle'},
+  const { shop, hero } = await context.storefront.query(HOMEPAGE_SEO_QUERY, {
+    variables: { handle: 'freestyle' },
   });
 
   const seo = seoPayload.home();
@@ -64,13 +64,6 @@ export async function loader({params, context}) {
           },
         },
       ),
-      tertiaryHero: context.storefront.query(COLLECTION_HERO_QUERY, {
-        variables: {
-          handle: 'winter-2022',
-          country,
-          language,
-        },
-      }),
       analytics: {
         pageType: AnalyticsPageType.home,
       },
@@ -86,9 +79,7 @@ export async function loader({params, context}) {
 
 export default function Homepage() {
   const {
-    primaryHero,
     secondaryHero,
-    tertiaryHero,
     featuredCollections,
     featuredProducts,
   } = useLoaderData();
@@ -98,31 +89,10 @@ export default function Homepage() {
 
   return (
     <>
-      {primaryHero && (
-        <Hero {...primaryHero} height="full" top loading="eager" />
-      )}
-
-      {featuredProducts && (
-        <Suspense>
-          <Await resolve={featuredProducts}>
-            {({products}) => {
-              if (!products?.nodes) return <></>;
-              return (
-                <ProductSwimlane
-                  products={products.nodes}
-                  title="Featured Products"
-                  count={4}
-                />
-              );
-            }}
-          </Await>
-        </Suspense>
-      )}
-
       {secondaryHero && (
         <Suspense fallback={<Hero {...skeletons[1]} />}>
           <Await resolve={secondaryHero}>
-            {({hero}) => {
+            {({ hero }) => {
               if (!hero) return <></>;
               return <Hero {...hero} />;
             }}
@@ -133,12 +103,12 @@ export default function Homepage() {
       {featuredCollections && (
         <Suspense>
           <Await resolve={featuredCollections}>
-            {({collections}) => {
+            {({ collections }) => {
               if (!collections?.nodes) return <></>;
               return (
                 <FeaturedCollections
                   collections={collections.nodes}
-                  title="Collections"
+                  title="COLECCIONES"
                 />
               );
             }}
@@ -146,12 +116,18 @@ export default function Homepage() {
         </Suspense>
       )}
 
-      {tertiaryHero && (
-        <Suspense fallback={<Hero {...skeletons[2]} />}>
-          <Await resolve={tertiaryHero}>
-            {({hero}) => {
-              if (!hero) return <></>;
-              return <Hero {...hero} />;
+      {featuredProducts && (
+        <Suspense>
+          <Await resolve={featuredProducts}>
+            {({ products }) => {
+              if (!products?.nodes) return <></>;
+              return (
+                <ProductSwimlane
+                  products={products.nodes}
+                  title="PRODUCTOS"
+                  count={4}
+                />
+              );
             }}
           </Await>
         </Suspense>

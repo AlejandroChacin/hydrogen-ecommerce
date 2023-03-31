@@ -29,7 +29,6 @@ export function SortFilter({
         >
           <IconFilters />
         </button>
-        <SortMenu />
       </div>
       <div className="flex flex-col flex-wrap md:flex-row">
         <div
@@ -112,9 +111,6 @@ export function FiltersDrawer({
           </div>
         ) : null}
 
-        <Heading as="h4" size="lead" className="pb-4">
-          Filter By
-        </Heading>
         <div className="divide-y">
           {filters.map(
             (filter) =>
@@ -154,7 +150,7 @@ function AppliedFilters({filters = []}) {
   return (
     <>
       <Heading as="h4" size="lead" className="pb-4">
-        Applied filters
+        Filtros aplicados
       </Heading>
       <div className="flex flex-wrap gap-2">
         {filters.map((filter) => {
@@ -300,61 +296,4 @@ function filterInputToParams(type, rawInput, params) {
   }
 
   return params;
-}
-
-export default function SortMenu() {
-  const items = [
-    {label: 'Featured', key: 'featured'},
-    {
-      label: 'Price: Low - High',
-      key: 'price-low-high',
-    },
-    {
-      label: 'Price: High - Low',
-      key: 'price-high-low',
-    },
-    {
-      label: 'Best Selling',
-      key: 'best-selling',
-    },
-    {
-      label: 'Newest',
-      key: 'newest',
-    },
-  ];
-  const [params] = useSearchParams();
-  const location = useLocation();
-  const activeItem = items.find((item) => item.key === params.get('sort'));
-
-  return (
-    <Menu as="div" className="relative z-40">
-      <Menu.Button className="flex items-center">
-        <span className="px-2">
-          <span className="px-2 font-medium">Sort by:</span>
-          <span>{(activeItem || items[0]).label}</span>
-        </span>
-        <IconCaret />
-      </Menu.Button>
-
-      <Menu.Items
-        as="nav"
-        className="absolute right-0 flex flex-col p-4 text-right rounded-sm bg-contrast"
-      >
-        {items.map((item) => (
-          <Menu.Item key={item.label}>
-            {() => (
-              <Link
-                className={`block text-sm pb-2 px-3 ${
-                  activeItem?.key === item.key ? 'font-bold' : 'font-normal'
-                }`}
-                to={getSortLink(item.key, params, location)}
-              >
-                {item.label}
-              </Link>
-            )}
-          </Menu.Item>
-        ))}
-      </Menu.Items>
-    </Menu>
-  );
 }

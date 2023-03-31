@@ -44,9 +44,9 @@ export function ProductGrid({url, collection, ...props}) {
   if (!haveProducts) {
     return (
       <>
-        <p>No products found on this collection</p>
+        <p>No se encontraron productos en esta colección</p>
         <Link to="/products">
-          <p className="underline">Browse catalog</p>
+          <p className="underline">Buscar catálogo</p>
         </Link>
       </>
     );
