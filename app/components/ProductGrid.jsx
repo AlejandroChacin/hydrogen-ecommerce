@@ -1,55 +1,82 @@
-import { useFetcher } from '@remix-run/react';
-import { useEffect, useState } from 'react';
-import ProductCard from './ProductCard';
+import {Button, Grid, ProductCard, Link} from '~/components';
+import {getImageLoadingPriority} from '~/lib/const';
+import {useFetcher} from '@remix-run/react';
+import {useEffect, useState} from 'react';
 
-export default function ProductGrid({ collection, url }) {
-    const [nextPage, setNextPage] = useState(
-        collection.products.pageInfo.hasNextPage,
-    );
+export function ProductGrid({url, collection, ...props}) {
+  const [initialProducts, setInitialProducts] = useState(
+    collection?.products?.nodes || [],
+  );
 
-    const [endCursor, setEndCursor] = useState(
-        collection.products.pageInfo.endCursor,
-    );
+  const [nextPage, setNextPage] = useState(
+    collection?.products?.pageInfo?.hasNextPage,
+  );
+  const [endCursor, setEndCursor] = useState(
+    collection?.products?.pageInfo?.endCursor,
+  );
+  const [products, setProducts] = useState(initialProducts);
 
-    const [products, setProducts] = useState(collection.products.nodes || []);
+  // props have changes, reset component state
+  const productProps = collection?.products?.nodes || [];
+  if (initialProducts !== productProps) {
+    setInitialProducts(productProps);
+    setProducts(productProps);
+  }
 
-    // For making client-side requests
-    // https://remix.run/docs/en/v1/hooks/use-fetcher
-    const fetcher = useFetcher();
+  const fetcher = useFetcher();
 
-    function fetchMoreProducts() {
-        // ?index differentiates index routes from their parent layout routes
-        // https://remix.run/docs/en/v1/guides/routing#what-is-the-index-query-param
-        fetcher.load(`${url}?index&cursor=${endCursor}`);
-    }
+  function fetchMoreProducts() {
+    fetcher.load(`${url}?index&cursor=${endCursor}`);
+  }
 
-    useEffect(() => {
-        if (!fetcher.data) return;
-        const { collection } = fetcher.data;
+  useEffect(() => {
+    if (!fetcher.data) return;
 
-        setProducts((prev) => [...prev, ...collection.products.nodes]);
-        setNextPage(collection.products.pageInfo.hasNextPage);
-        setEndCursor(collection.products.pageInfo.endCursor);
-    }, [fetcher.data]);
+    const {collection} = fetcher.data;
 
+    setProducts((prev) => [...prev, ...collection.products.nodes]);
+    setNextPage(collection.products.pageInfo.hasNextPage);
+    setEndCursor(collection.products.pageInfo.endCursor);
+  }, [fetcher.data]);
+
+  const haveProducts = initialProducts.length > 0;
+
+  if (!haveProducts) {
     return (
-        <section className="w-full gap-4 md:gap-8 grid">
-            <div className="grid-flow-row grid gap-2 gap-y-6 md:gap-4 lg:gap-6 grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-                {products.map((product) => (
-                    <ProductCard key={product.id} product={product} />
-                ))}
-            </div>
-            {nextPage && (
-                <div className="flex items-center justify-center mt-6">
-                    <button
-                        className="inline-block rounded font-medium text-center py-3 px-6 border w-full cursor-pointer"
-                        disabled={fetcher.state !== 'idle'}
-                        onClick={fetchMoreProducts}
-                    >
-                        {fetcher.state !== 'idle' ? 'Loading...' : 'Load more products'}
-                    </button>
-                </div>
-            )}
-        </section>
+      <>
+        <p>No se encontraron productos en esta colección</p>
+        <Link to="/products">
+          <p className="underline">Buscar catálogo</p>
+        </Link>
+      </>
     );
+  }
+
+  return (
+    <>
+      <Grid layout="products" {...props}>
+        {products.map((product, i) => (
+          <ProductCard
+            key={product.id}
+            product={product}
+            loading={getImageLoadingPriority(i)}
+          />
+        ))}
+      </Grid>
+
+      {nextPage && (
+        <div className="flex items-center justify-center mt-6">
+          <Button
+            disabled={fetcher.state !== 'idle'}
+            variant="secondary"
+            onClick={fetchMoreProducts}
+            width="full"
+            prefetch="intent"
+          >
+            {fetcher.state !== 'idle' ? 'Loading...' : 'Load more products'}
+          </Button>
+        </div>
+      )}
+    </>
+  );
 }
