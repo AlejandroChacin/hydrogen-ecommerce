@@ -1,7 +1,7 @@
 {
-  "name": "demo-store",
+  "name": "hydrogen-ecommerce",
   "private": true,
-  "version": "0.0.0",
+  "version": "1.0.0",
   "scripts": {
     "build": "npm run build:css && shopify hydrogen build",
     "build:css": "postcss styles --base styles --dir app/styles --env production",
