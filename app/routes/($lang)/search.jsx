@@ -74,7 +74,7 @@ export default function Search() {
     <>
       <PageHeader>
         <Heading as="h1" size="copy">
-          Search
+          Buscar
         </Heading>
         <Form method="get" className="relative flex w-full text-heading">
           <Input
@@ -85,7 +85,7 @@ export default function Search() {
             name="q"
           />
           <button className="absolute right-0 py-2" type="submit">
-            Go
+            Buscar
           </button>
         </Form>
       </PageHeader>
@@ -94,7 +94,7 @@ export default function Search() {
           {noResults && (
             <Section padding="x">
               <Text className="opacity-50">
-                No results, try something else.
+                No hay resultados, intente nuevamente.
               </Text>
             </Section>
           )}
@@ -106,11 +106,11 @@ export default function Search() {
               {(data) => (
                 <>
                   <FeaturedCollections
-                    title="Trending Collections"
+                    title="Colecciones Populares"
                     collections={data.featuredCollections}
                   />
                   <ProductSwimlane
-                    title="Trending Products"
+                    title="Productos Populares"
                     products={data.featuredProducts}
                   />
                 </>

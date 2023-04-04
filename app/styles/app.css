@@ -1627,14 +1627,6 @@ select{
   margin-left: auto;
   margin-right: auto;
 }
-.my-24{
-  margin-top: 6rem;
-  margin-bottom: 6rem;
-}
-.my-8{
-  margin-top: 2rem;
-  margin-bottom: 2rem;
-}
 .-mb-px{
   margin-bottom: -1px;
 }
@@ -1644,9 +1636,6 @@ select{
 }
 .mb-1{
   margin-bottom: 0.25rem;
-}
-.mb-2{
-  margin-bottom: 0.5rem;
 }
 .mb-24{
   margin-bottom: 6rem;
@@ -1675,9 +1664,6 @@ select{
 .mt-2{
   margin-top: 0.5rem;
 }
-.mt-3{
-  margin-top: 0.75rem;
-}
 .mt-4{
   margin-top: 1rem;
 }
@@ -1698,9 +1684,6 @@ select{
 }
 .flex{
   display: flex;
-}
-.table{
-  display: table;
 }
 .grid{
   display: grid;
@@ -1825,9 +1808,6 @@ select{
 }
 .min-w-full{
   min-width: 100%;
-}
-.max-w-0{
-  max-width: 0rem;
 }
 .max-w-7xl{
   max-width: 80rem;
@@ -2011,25 +1991,11 @@ select{
 .gap-y-8{
   row-gap: 2rem;
 }
-.space-y-3 > :not([hidden]) ~ :not([hidden]){
-  --tw-space-y-reverse: 0;
-  margin-top: calc(0.75rem * (1 - var(--tw-space-y-reverse)));
-  margin-top: calc(0.75rem * calc(1 - var(--tw-space-y-reverse)));
-  margin-bottom: calc(0.75rem * var(--tw-space-y-reverse));
-}
 .divide-y > :not([hidden]) ~ :not([hidden]){
   --tw-divide-y-reverse: 0;
   border-top-width: calc(1px * (1 - var(--tw-divide-y-reverse)));
   border-top-width: calc(1px * calc(1 - var(--tw-divide-y-reverse)));
   border-bottom-width: calc(1px * var(--tw-divide-y-reverse));
-}
-.divide-gray-200 > :not([hidden]) ~ :not([hidden]){
-  --tw-divide-opacity: 1;
-  border-color: rgba(229, 231, 235, var(--tw-divide-opacity));
-}
-.divide-gray-300 > :not([hidden]) ~ :not([hidden]){
-  --tw-divide-opacity: 1;
-  border-color: rgba(209, 213, 219, var(--tw-divide-opacity));
 }
 .self-end{
   align-self: flex-end;
@@ -2078,9 +2044,6 @@ select{
 .rounded-full{
   border-radius: 9999px;
 }
-.rounded-sm{
-  border-radius: 0.125rem;
-}
 .rounded-b{
   border-bottom-right-radius: 0.25rem;
   border-bottom-left-radius: 0.25rem;
@@ -2125,14 +2088,6 @@ select{
 .border-gray-200{
   --tw-border-opacity: 1;
   border-color: rgba(229, 231, 235, var(--tw-border-opacity));
-}
-.border-gray-300{
-  --tw-border-opacity: 1;
-  border-color: rgba(209, 213, 219, var(--tw-border-opacity));
-}
-.border-gray-500{
-  --tw-border-opacity: 1;
-  border-color: rgba(107, 114, 128, var(--tw-border-opacity));
 }
 .border-primary{
   --tw-border-opacity: 1;
@@ -2208,20 +2163,12 @@ select{
   background-color: rgba(20, 20, 20, 0.05);
   background-color: rgb(var(--color-primary) / 0.05);
 }
-.bg-red-100{
-  --tw-bg-opacity: 1;
-  background-color: rgba(254, 226, 226, var(--tw-bg-opacity));
-}
 .bg-transparent{
   background-color: transparent;
 }
 .bg-white{
   --tw-bg-opacity: 1;
   background-color: rgba(255, 255, 255, var(--tw-bg-opacity));
-}
-.bg-zinc-500{
-  --tw-bg-opacity: 1;
-  background-color: rgba(113, 113, 122, var(--tw-bg-opacity));
 }
 .bg-opacity-25{
   --tw-bg-opacity: 0.25;
@@ -2327,20 +2274,8 @@ select{
 .pb-px{
   padding-bottom: 1px;
 }
-.pl-0{
-  padding-left: 0px;
-}
-.pl-3{
-  padding-left: 0.75rem;
-}
-.pl-6{
-  padding-left: 1.5rem;
-}
 .pr-0{
   padding-right: 0px;
-}
-.pr-3{
-  padding-right: 0.75rem;
 }
 .pr-4{
   padding-right: 1rem;
@@ -2357,9 +2292,6 @@ select{
 .pt-5{
   padding-top: 1.25rem;
 }
-.pt-6{
-  padding-top: 1.5rem;
-}
 .pt-8{
   padding-top: 2rem;
 }
@@ -2372,18 +2304,8 @@ select{
 .text-right{
   text-align: right;
 }
-.align-baseline{
-  vertical-align: baseline;
-}
-.align-top{
-  vertical-align: top;
-}
 .align-middle{
   vertical-align: middle;
-}
-.text-4xl{
-  font-size: 2.25rem;
-  line-height: 2.5rem;
 }
 .text-\[0\.625rem\]{
   font-size: 0.625rem;
@@ -2434,9 +2356,6 @@ select{
 .font-normal{
   font-weight: 400;
 }
-.font-semibold{
-  font-weight: 600;
-}
 .leading-\[3rem\]{
   line-height: 3rem;
 }
@@ -2458,10 +2377,6 @@ select{
 .text-contrast\/90{
   color: rgba(250, 250, 249, 0.9);
   color: rgb(var(--color-contrast) / 0.9);
-}
-.text-green-700{
-  --tw-text-opacity: 1;
-  color: rgba(21, 128, 61, var(--tw-text-opacity));
 }
 .text-green-800{
   --tw-text-opacity: 1;
@@ -2485,17 +2400,9 @@ select{
   color: rgba(20, 20, 20, 0.9);
   color: rgb(var(--color-primary) / 0.9);
 }
-.text-red-500{
-  --tw-text-opacity: 1;
-  color: rgba(239, 68, 68, var(--tw-text-opacity));
-}
 .text-red-600{
   --tw-text-opacity: 1;
   color: rgba(220, 38, 38, var(--tw-text-opacity));
-}
-.text-red-900{
-  --tw-text-opacity: 1;
-  color: rgba(127, 29, 29, var(--tw-text-opacity));
 }
 .underline{
   text-decoration-line: underline;
@@ -3235,28 +3142,12 @@ shop-pay-button {
     display: block;
   }
 
-  .sm\:table-cell{
-    display: table-cell;
-  }
-
-  .sm\:hidden{
-    display: none;
-  }
-
   .sm\:aspect-square{
     aspect-ratio: 1 / 1;
   }
 
-  .sm\:w-auto{
-    width: auto;
-  }
-
   .sm\:w-full{
     width: 100%;
-  }
-
-  .sm\:max-w-none{
-    max-width: none;
   }
 
   .sm\:max-w-sm{
@@ -3265,10 +3156,6 @@ shop-pay-button {
 
   .sm\:flex-none{
     flex: none;
-  }
-
-  .sm\:grid-cols-1{
-    grid-template-columns: repeat(1, minmax(0, 1fr));
   }
 
   .sm\:grid-cols-2{
@@ -3281,18 +3168,6 @@ shop-pay-button {
 
   .sm\:gap-6{
     gap: 1.5rem;
-  }
-
-  .sm\:divide-y > :not([hidden]) ~ :not([hidden]){
-    --tw-divide-y-reverse: 0;
-    border-top-width: calc(1px * (1 - var(--tw-divide-y-reverse)));
-    border-top-width: calc(1px * calc(1 - var(--tw-divide-y-reverse)));
-    border-bottom-width: calc(1px * var(--tw-divide-y-reverse));
-  }
-
-  .sm\:divide-gray-200 > :not([hidden]) ~ :not([hidden]){
-    --tw-divide-opacity: 1;
-    border-color: rgba(229, 231, 235, var(--tw-divide-opacity));
   }
 
   .sm\:p-0{
@@ -3317,10 +3192,6 @@ shop-pay-button {
     padding-top: 2rem;
     padding-bottom: 2rem;
   }
-
-  .sm\:align-middle{
-    vertical-align: middle;
-  }
 }
 @media (min-width: 48em){
 
@@ -3341,18 +3212,9 @@ shop-pay-button {
     grid-column: span 2 / span 2;
   }
 
-  .md\:col-span-3{
-    grid-column: span 3 / span 3;
-  }
-
   .md\:mx-auto{
     margin-left: auto;
     margin-right: auto;
-  }
-
-  .md\:my-8{
-    margin-top: 2rem;
-    margin-bottom: 2rem;
   }
 
   .md\:-mb-nav{
@@ -3370,10 +3232,6 @@ shop-pay-button {
 
   .md\:inline-block{
     display: inline-block;
-  }
-
-  .md\:table-cell{
-    display: table-cell;
   }
 
   .md\:aspect-\[4\/5\]{
@@ -3484,10 +3342,6 @@ shop-pay-button {
     gap: 3rem;
   }
 
-  .md\:gap-16{
-    gap: 4rem;
-  }
-
   .md\:gap-4{
     gap: 1rem;
   }
@@ -3585,14 +3439,6 @@ shop-pay-button {
     padding-bottom: 2rem;
   }
 
-  .md\:pl-0{
-    padding-left: 0px;
-  }
-
-  .md\:pr-3{
-    padding-right: 0.75rem;
-  }
-
   .md\:pr-8{
     padding-right: 2rem;
   }
@@ -3673,11 +3519,6 @@ shop-pay-button {
   .lg\:py-12{
     padding-top: 3rem;
     padding-bottom: 3rem;
-  }
-
-  .lg\:py-6{
-    padding-top: 1.5rem;
-    padding-bottom: 1.5rem;
   }
 
   .lg\:pb-8{
