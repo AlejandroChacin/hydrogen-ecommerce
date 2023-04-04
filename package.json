@@ -35,6 +35,7 @@
     "typographic-base": "^1.0.4"
   },
   "devDependencies": {
+    "@netlify/hydrogen-platform": "^1.1.4",
     "@remix-run/dev": "1.14.0",
     "@remix-run/eslint-config": "1.14.0",
     "@shopify/eslint-plugin": "^42.0.1",
