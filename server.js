@@ -1,5 +1,5 @@
 // Virtual entry point for the app
-import * as build from '@remix-run/dev/server-build';
+import * as remixBuild from '@remix-run/dev/server-build';
 import {
   createRequestHandler,
   getStorefrontHeaders,
@@ -47,9 +47,9 @@ export default {
        * Hydrogen's Storefront client to the loader context.
        */
       const handleRequest = createRequestHandler({
-        build,
-        getLoadContext,
+        build: remixBuild,
         mode: process.env.NODE_ENV,
+        getLoadContext: () => ({cache, session, waitUntil, storefront, env}),
       });
 
       const response = await handleRequest(request);
@@ -71,34 +71,3 @@ export default {
     }
   },
 };
-
-function getLoadContext(event, context) {
-  let rawAuthorizationString;
-  let netlifyGraphToken;
-
-  if (event.authlifyToken != null) {
-    netlifyGraphToken = event.authlifyToken;
-  }
-
-  const authHeader = event.headers["authorization"];
-  const graphSignatureHeader = event.headers["x-netlify-graph-signature"];
-
-  if (authHeader != null && /Bearer /gi.test(authHeader)) {
-    rawAuthorizationString = authHeader.split(" ")[1];
-  }
-
-  const loadContext = {
-    clientNetlifyGraphAccessToken: rawAuthorizationString,
-    netlifyGraphToken: netlifyGraphToken,
-    netlifyGraphSignature: graphSignatureHeader,
-  };
-
-  // Remove keys with undefined values
-  Object.keys(loadContext).forEach((key) => {
-    if (loadContext[key] == null) {
-      delete loadContext[key];
-    }
-  });
-
-  return loadContext;
-}
