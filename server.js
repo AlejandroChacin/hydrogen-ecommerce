@@ -7,7 +7,6 @@ import {
 import {createStorefrontClient, storefrontRedirect} from '@shopify/hydrogen';
 import {HydrogenSession} from '~/lib/session.server';
 import {getLocaleFromRequest} from '~/lib/utils';
-import * as build from "@remix-run/dev/server-build";
 
 /**
  * Export a fetch handler in module format.
