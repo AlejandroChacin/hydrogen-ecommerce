@@ -15,10 +15,10 @@
  const ABORT_DELAY = 5_000;
  
  export default function handleRequest(
-   request: Request,
-   responseStatusCode: number,
-   responseHeaders: Headers,
-   remixContext: EntryContext
+   request,
+   responseStatusCode,
+   responseHeaders,
+   remixContext
  ) {
    return isbot(request.headers.get("user-agent"))
      ? handleBotRequest(
@@ -36,10 +36,10 @@
  }
  
  function handleBotRequest(
-   request: Request,
-   responseStatusCode: number,
-   responseHeaders: Headers,
-   remixContext: EntryContext
+   request,
+   responseStatusCode,
+   responseHeaders,
+   remixContext
  ) {
    return new Promise((resolve, reject) => {
      const { pipe, abort } = renderToPipeableStream(
