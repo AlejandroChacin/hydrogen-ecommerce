@@ -7,7 +7,7 @@ module.exports = {
       : undefined,
   serverBuildPath: "dist/worker/index.js",
   appDirectory: "app",
-  assetsBuildDirectory: "public/build",
+  assetsBuildDirectory: "dist/client",
   publicPath: "/build/",
   serverMainFields: ['browser', 'module', 'main'],
   serverConditions: ['worker', process.env.NODE_ENV],
