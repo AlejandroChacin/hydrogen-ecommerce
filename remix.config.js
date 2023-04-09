@@ -6,9 +6,15 @@ module.exports = {
       ? "./server.js"
       : undefined,
   serverBuildPath: ".netlify/functions-internal/server.js",
-  // appDirectory: "app",
-  // assetsBuildDirectory: "public/build",
-  // publicPath: "/build/",
+  appDirectory: "app",
+  assetsBuildDirectory: "public/build",
+  publicPath: "/build/",
+  serverMainFields: ['browser', 'module', 'main'],
+  serverConditions: ['worker', process.env.NODE_ENV],
+  serverDependenciesToBundle: 'all',
+  serverModuleFormat: 'esm',
+  serverPlatform: 'neutral',
+  serverMinify: process.env.NODE_ENV === 'production',
   future: {
     v2_errorBoundary: true,
     v2_meta: true,
