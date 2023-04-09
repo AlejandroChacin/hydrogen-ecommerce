@@ -5,7 +5,7 @@ module.exports = {
     process.env.NETLIFY || process.env.NETLIFY_LOCAL
       ? "./server.js"
       : undefined,
-  serverBuildPath: ".netlify/functions-internal/server.js",
+  serverBuildPath: "dist/worker/index.js",
   appDirectory: "app",
   assetsBuildDirectory: "public/build",
   publicPath: "/build/",
